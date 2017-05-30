@@ -45,34 +45,27 @@ public class SierpinskiTriangle {
     Graphics2D g2 = (Graphics2D) g;
     g2.setBackground(Color.white);
     g2.clearRect(0, 0, size.width, size.height);
-    //g2.draw3DRect(20, 20, size.width - 40, size.height - 40, true);
 
     int length = size.width;
     if (size.height < length) length = size.height;
-    System.out.println("w: " + size.width + ", h: " + size.height + ", length: " + length);
-    //int length = (int) Math.sqrt(Math.pow(smallest, 2) - Math.pow((smallest / 2), 2));
-    //g2.drawLine(0, size.height, length, size.height); // bottom
-    //g2.drawLine(0, size.height, length / 2, (int) (size.height - length / 2 * Math.sqrt(3))); // left
-    //g2.drawLine(length, size.height, length / 2, (int) (size.height - length / 2 * Math.sqrt(3))); // right
+    //System.out.println("w: " + size.width + ", h: " + size.height + ", length: " + length);
 
-    int[] xPoints = {0, length / 2, length};
-    int[] yPoints = {size.height, (int) (size.height - length / 2 * Math.sqrt(3)), size.height};
-    g2.setColor(Color.white);
-    g2.drawPolygon(xPoints, yPoints, 3);
-    g2.setColor(Color.black);
-    g2.fillPolygon(xPoints, yPoints, 3);
+    int[] xPoints;
+    int[] yPoints;
 
-    length /= 2;
-    xPoints = new int[]{0 + length / 2, length / 2 + length / 2, length + length / 2};
-    yPoints = new int[]{(int) (size.height - (length / 2 * Math.sqrt(3))), size.height, (int) (size.height - (length / 2 * Math.sqrt(3)))};
-    //g2.setColor(Color.black);
-    //g2.drawPolygon(xPoints, yPoints, 3);
-    g2.setColor(Color.white);
-    g2.fillPolygon(xPoints, yPoints, 3);
-
-    // g2.drawLine(20, size.height - 20, size.width - 20, size.height - 20);
-    // g2.drawLine(20, size.height - 20, size.width / 2, 20);
-    // g2.drawLine(size.width - 20, size.height - 20, size.width / 2, 20);
+    for (int i = 1; i <= 10; i++) {
+      if (i % 2 != 0) {
+        xPoints = new int[]{0, length / 2, length};
+        yPoints = new int[]{size.height, (int) (size.height - length / 2 * Math.sqrt(3)), size.height};
+        g2.setColor(Color.black);
+        g2.fillPolygon(xPoints, yPoints, 3);
+      } else {
+        length /= 2;
+        xPoints = new int[]{length / 2, length / 2 + length / 2, length + length / 2};
+        yPoints = new int[]{(int) (size.height - (length / 2 * Math.sqrt(3))), size.height, (int) (size.height - (length / 2 * Math.sqrt(3)))};
+        g2.setColor(Color.white);
+        g2.fillPolygon(xPoints, yPoints, 3);
+      }
+    }
   }
-
 }
