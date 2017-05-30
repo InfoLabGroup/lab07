@@ -56,11 +56,19 @@ public class SierpinskiTriangle {
     //g2.drawLine(length, size.height, length / 2, (int) (size.height - length / 2 * Math.sqrt(3))); // right
 
     int[] xPoints = {0, length / 2, length};
-    int[] yPoints = {size.height, (int) (size.height - length / 2 * Math.sqrt(3)), length};
-    g2.setColor(Color.black);
+    int[] yPoints = {size.height, (int) (size.height - length / 2 * Math.sqrt(3)), size.height};
+    g2.setColor(Color.white);
     g2.drawPolygon(xPoints, yPoints, 3);
+    g2.setColor(Color.black);
+    g2.fillPolygon(xPoints, yPoints, 3);
+
+    length /= 2;
+    xPoints = new int[]{0 + length / 2, length / 2 + length / 2, length + length / 2};
+    yPoints = new int[]{(int) (size.height - (length / 2 * Math.sqrt(3))), size.height, (int) (size.height - (length / 2 * Math.sqrt(3)))};
     //g2.setColor(Color.black);
-    //g2.fillPolygon(xPoints, yPoints, 3);
+    //g2.drawPolygon(xPoints, yPoints, 3);
+    g2.setColor(Color.white);
+    g2.fillPolygon(xPoints, yPoints, 3);
 
     // g2.drawLine(20, size.height - 20, size.width - 20, size.height - 20);
     // g2.drawLine(20, size.height - 20, size.width / 2, 20);
