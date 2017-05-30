@@ -48,24 +48,34 @@ public class SierpinskiTriangle {
 
     int length = size.width;
     if (size.height < length) length = size.height;
-    //System.out.println("w: " + size.width + ", h: " + size.height + ", length: " + length);
+    //System.out.println("w: " + size.width + ", h: " + size.height + ", length: " + length + ", calculated height: " +  height(length));
 
     int[] xPoints;
     int[] yPoints;
 
-    for (int i = 1; i <= 10; i++) {
-      if (i % 2 != 0) {
-        xPoints = new int[]{0, length / 2, length};
-        yPoints = new int[]{size.height, (int) (size.height - length / 2 * Math.sqrt(3)), size.height};
-        g2.setColor(Color.black);
-        g2.fillPolygon(xPoints, yPoints, 3);
-      } else {
-        length /= 2;
-        xPoints = new int[]{length / 2, length / 2 + length / 2, length + length / 2};
-        yPoints = new int[]{(int) (size.height - (length / 2 * Math.sqrt(3))), size.height, (int) (size.height - (length / 2 * Math.sqrt(3)))};
-        g2.setColor(Color.white);
-        g2.fillPolygon(xPoints, yPoints, 3);
-      }
+
+    xPoints = new int[]{0, length / 2, length};
+    yPoints = new int[]{size.height, (size.height - height(length)), size.height};
+    g2.setColor(Color.black);
+    g2.drawPolygon(xPoints, yPoints, 3);
+    triangle(g2, size, length);
+  }
+
+  public int height(int length) {
+    return (int) (length / 2 * Math.sqrt(3));
+  }
+
+  public void triangle(Graphics2D g2, Dimension size, int length) {
+    int[] xPoints;
+    int[] yPoints;
+    if (length > 10) {
+      g2.translate(0, 0);
+      length /= 2;
+      xPoints = new int[]{length / 2, length / 2 + length / 2, length + length / 2};
+      yPoints = new int[]{size.height - height(length), size.height, size.height - height(length)};
+      g2.setColor(Color.black);
+      g2.drawPolygon(xPoints, yPoints, 3);
+      triangle(g2, size, length);
     }
   }
 }
