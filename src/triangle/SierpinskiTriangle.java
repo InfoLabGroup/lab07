@@ -6,7 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class SierpinskiTriangle {
-  public static int SIZE = 1000;
+  public static int SIZE = 500;
 
   JFrame frame;
   JPanel panel;
@@ -46,36 +46,58 @@ public class SierpinskiTriangle {
     g2.setBackground(Color.white);
     g2.clearRect(0, 0, size.width, size.height);
 
-    int length = size.width;
-    if (size.height < length) length = size.height;
+    double length, h;
+    if (size.width <= size.height) {
+      length = size.width;
+      h = Math.sqrt(Math.pow(length, 2) - Math.pow(length / 2, 2));
+    } else {
+      h = size.height;
+      length = h * 2 / Math.sqrt(3);
+    }
+
+    double Ax = 0;
+    double Ay = (size.height - 1);
+    double Bx = Ax + length;
+    double By = Ay;
+    double Cx = Ax + length / 2;
+    double Cy = size.height - h - 1;
     //System.out.println("w: " + size.width + ", h: " + size.height + ", length: " + length + ", calculated height: " +  height(length));
-
-    int[] xPoints;
-    int[] yPoints;
-
-
-    xPoints = new int[]{0, length / 2, length};
-    yPoints = new int[]{size.height, (size.height - height(length)), size.height};
-    g2.setColor(Color.black);
-    g2.drawPolygon(xPoints, yPoints, 3);
-    triangle(g2, size, length);
+    triangle(g, length, Ax, Ay, Bx, By, Cx, Cy);
   }
 
   public int height(int length) {
     return (int) (length / 2 * Math.sqrt(3));
   }
 
-  public void triangle(Graphics2D g2, Dimension size, int length) {
-    int[] xPoints;
-    int[] yPoints;
-    if (length > 10) {
-      g2.translate(0, 0);
-      length /= 2;
-      xPoints = new int[]{length / 2, length / 2 + length / 2, length + length / 2};
-      yPoints = new int[]{size.height - height(length), size.height, size.height - height(length)};
-      g2.setColor(Color.black);
-      g2.drawPolygon(xPoints, yPoints, 3);
-      triangle(g2, size, length);
+  private void triangle(Graphics g, double length, double ax, double ay, double bx, double by, double cx, double cy) {
+    if (length >= 5) {
+      double[] a = {ax, ay};
+      double[] b = {bx, by};
+      double[] c = {cx, cy};
+
+      // paint actual triangle (actual size)
+      int[] xPoints = {(int) ax, (int) bx, (int) cx};
+      int[] yPoints = {(int) ay, (int) by, (int) cy};
+      g.drawPolygon(xPoints, yPoints, 3);
+
+      // draw 3 little triangles (recursive calls with smaller size)
+      double[] a1 = a;
+      double[] b1 = {ax + length / 2, ay};
+      double[] c1 = {ax + length / 4, ay - (ay - cy) / 2};
+      //left smaller triangle
+      triangle(g, length / 2, a1[0], a1[1], b1[0], b1[1], c1[0], c1[1]);
+
+      double[] a2 = b1;
+      double[] b2 = b;
+      double[] c2 = {ax + length * 3 / 4, ay - (ay - cy) / 2};
+      //right smaller triangle
+      triangle(g, length / 2, a2[0], a2[1], b2[0], b2[1], c2[0], c2[1]);
+
+      double[] a3 = c1;
+      double[] b3 = c2;
+      double[] c3 = c;
+      //right smaller triangle
+      triangle(g, length / 2, a3[0], a3[1], b3[0], b3[1], c3[0], c3[1]);
     }
   }
 }
